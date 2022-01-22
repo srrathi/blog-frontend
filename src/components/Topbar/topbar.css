@@ -1,0 +1,65 @@
+.topbarBtns {
+  background-color: rgb(60, 90, 95);
+  color: rgb(255, 255, 255);
+  height: 35px;
+  width: 130px;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+.topbarLoginBtn {
+  background-color: #fff;
+  color: rgb(60, 90, 95);
+  border: 2px solid rgb(60, 90, 95);
+}
+
+.topbarLoginBtn:hover {
+  background-color: rgb(60, 90, 95);
+  color: rgb(255, 255, 255);
+}
+
+.topbarDropdownTitle {
+  font-size: 20px;
+  color: #444;
+}
+
+.dropdown-menu {
+  box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12),
+    0 2px 10px 0 rgba(34, 36, 38, 0.15) !important;
+  border-radius: 0.28571429rem !important;
+  border: none !important;
+  font-size: 18px !important;
+  color: #444!important;
+}
+
+.formInput:focus{
+  outline: none;
+}
+
+.loginFormBtn{
+  width: 100%;
+  margin-top: 20px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3c5a5f;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #fff;
+  outline: none!important;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.loginFormBtn:disabled{
+  cursor: not-allowed;
+  background-color: #678085;
+
+}
