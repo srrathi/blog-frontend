@@ -50,6 +50,7 @@ export const toastWarning = (msg) => {
 
 export const emailValidator = (email) => {
   return email.match(
+    /* eslint-disable  */
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 };
