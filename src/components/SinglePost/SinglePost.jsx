@@ -18,6 +18,7 @@ const SinglePost = () => {
   const [desc, setDesc] = useState("");
   const [photo, setPhoto] = useState("");
   const [commentInput, setCommentInput] = useState("");
+  const [postLiked, setPostLiked] = useState(false);
 
   useEffect(() => {
     const getPost = async () => {
@@ -31,7 +32,13 @@ const SinglePost = () => {
     getPost();
   }, [postId]);
 
-  console.log(post);
+  useEffect(() => {
+    if (post && post.likes && user) {
+      setPostLiked(post.likes.includes(user?._id));
+    }
+  }, [post, user]);
+
+  // console.log(post);
 
   const handleDelete = async () => {
     try {
@@ -118,7 +125,25 @@ const SinglePost = () => {
           { headers: { "x-access-token": token } }
         );
         if (res.data) {
-          window.location.reload();
+          setPostLiked(!postLiked);
+          if (postLiked) {
+            const newLikesArray = post.likes;
+            const index = newLikesArray.indexOf(user._id);
+            if (index > -1) {
+              newLikesArray.splice(index, 1);
+            }
+            setPost({ ...post, likes: [...newLikesArray] });
+          } else {
+            setPost({ ...post, likes: [...post.likes, user._id] });
+          }
+        }
+        if (postLiked) {
+          const newLikesArray = post.likes;
+          const index = newLikesArray.indexOf(user._id);
+          if (index > -1) {
+            newLikesArray.splice(index, 1);
+          }
+          setPost({ ...post, likes: [...newLikesArray] });
         }
       } catch (error) {
         console.log(error);
@@ -259,16 +284,14 @@ const SinglePost = () => {
         </div>
         <div className="interactIcons d-flex py-2">
           <div className="like m-3 text-muted">
-            {post.likes && post.likes.includes(user?._id) ? (
+            {post.likes && postLiked ? (
               <i
-                disabled={true}
                 role={"button"}
                 onClick={handlePostLike}
                 className="fas text-danger likeBtn fa-thumbs-up"
               ></i>
             ) : (
               <i
-                disabled={true}
                 role={"button"}
                 onClick={handlePostLike}
                 className="far likeBtn fa-thumbs-up"
@@ -287,7 +310,7 @@ const SinglePost = () => {
           {post.comments &&
             post.comments.map((pc) => {
               return (
-                <div className="comment-box d-flex">
+                <div key={pc._id} className="comment-box d-flex">
                   <img
                     src="https://picsum.photos/1000/500"
                     alt="header"
