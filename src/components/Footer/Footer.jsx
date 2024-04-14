@@ -17,16 +17,11 @@ const Footer = () => {
                   className="d-inline-block"
                   src={logo}
                   alt="company logo"
-                  style={{ height: "50px", width: "50px" }}
+                  style={{ height: "50px"}}
                 />
-                <h2
-                  style={{ color: "rgb(230, 230, 230)" }}
-                  className="d-inline-block w-50 m-2 pt-2"
-                >
-                  My&nbsp;Dev&nbsp;Blogs
-                </h2>
+                
               </div>
-              <div className="mt-4">
+              <div className="mt-5">
                 <p className="text-white d-inline-block w-50">Terms</p>
                 <p className="text-white d-inline-block w-50">Privacy Policy</p>
               </div>
@@ -93,7 +88,7 @@ const Footer = () => {
                   </a>
                 </div>
                 <div className="mt-4">
-                  <p className="text-white">© Copyright My Dev Blogs 2022</p>
+                  <p className="text-white">© Copyright 2024</p>
                 </div>
               </div>
             </Col>

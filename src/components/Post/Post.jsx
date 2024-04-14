@@ -1,17 +1,21 @@
 import React from "react";
-import { Col, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { readingTime } from "../../utils";
 import "./post.css";
+import { Buffer } from 'buffer';
 
 const Post = ({ post }) => {
   return (
-    <Col className="my-4" sm="12" md="6" lg="3">
-      <Card style={{ height: "25rem" }}>
-        <Card.Img
-          variant="top"
-          src={post.photo ? post.photo : "https://picsum.photos/1000/500"}
-        />
+    <div className="my-4">
+      <Card>
+        <div style={{ width: "100%", height: "12rem", objectFit: "contain" }}>
+          <Card.Img
+            variant="top"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            src={post.photo ? post.photo : "https://picsum.photos/1000/500"}
+          />
+        </div>
         <Card.Body>
           <Card.Title>{post.title}</Card.Title>
           <p className="text-muted">
@@ -21,12 +25,12 @@ const Post = ({ post }) => {
         </Card.Body>
         <Card.Footer className="d-flex bg-white justify-content-between">
           <small className="text-muted">{readingTime(post.desc)} min read</small>
-          <Link to={`/post/${post._id}`} className="text-decoration-none">
+          <Link to={`/post/${Buffer.from(post?._id, 'utf8').toString('base64')}`} className="text-decoration-none">
             Read More
           </Link>
         </Card.Footer>
       </Card>
-    </Col>
+    </div>
   );
 };
 

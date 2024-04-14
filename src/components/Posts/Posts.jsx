@@ -1,16 +1,17 @@
 import React from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import Post from "../Post/Post";
+import SpinnerComponent from "../SpinnerComponent/SpinnerComponent";
 
-const Posts = ({ posts }) => {
-  return (
+const Posts = ({ posts, isLoading, setIsLoading }) => {
+  return isLoading ? <SpinnerComponent /> : (
     <Container>
-      <Row>
+      <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
         {posts.map((p) => {
           return <Post key={p._id} post={p} />;
         })}
-        
-      </Row>
+
+      </div>
     </Container>
   );
 };

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Navbar, Container, Nav, NavDropdown, Modal } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import logo from "../../assets/images/logob.png";
+import logo from "../../assets/images/logoa.png";
 import {
   LoginFailure,
   LoginStart,
@@ -177,11 +177,10 @@ const Topbar = () => {
             className="d-flex text-dark text-decoration-none align-items-center"
           >
             <img
-              style={{ height: "50px", width: "50px" }}
+              style={{ height: "50px"}}
               src={logo}
               alt="dummy logo"
             />
-            <p className="m-2 font-weight-bold">My Dev Blogs</p>
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
