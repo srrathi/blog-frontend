@@ -57,7 +57,8 @@ const Settings = () => {
     }
   };
 
-  const handleAccountDelete = async () => {
+  const handleAccountDelete = async (e) => {
+    e.preventDefault()
     if (window.confirm("Are you sure you want to Delete your account ?")) {
       try {
         const res = await axios.delete(
@@ -78,11 +79,6 @@ const Settings = () => {
       <Container className="my-5">
         <Card className="py-4 accountSettingsCard">
           <h2 className="text-center">Account Settings</h2>
-          <i
-            onClick={handleAccountDelete}
-            style={{ fontSize: "20px", cursor: "pointer" }}
-            className="singlePostIcon text-danger far d-flex flex-row-reverse m-2 fa-trash-alt"
-          ></i>
           <form onSubmit={handleSubmit} className="p-3 mb-3">
             <label className="w-100 mt-4" style={{ fontSize: "20px" }}>
               Username
@@ -128,12 +124,20 @@ const Settings = () => {
               value={userData.contact}
               onChange={handleInput}
             />
-            <button
-              type="submit"
-              className="settingsUpdateBtn mx-auto d-flex mt-5 align-items-center justify-content-center"
-            >
-              Update Settings
-            </button>
+            <div className="d-flex align-items-center justify-content-center">
+              <button
+                type="submit"
+                className="settingsUpdateBtn mx-auto d-flex mt-5 align-items-center justify-content-center"
+              >
+                Update Settings
+              </button>
+              <button
+                onClick={handleAccountDelete}
+                className="settingsUpdateDangerBtn mx-auto d-flex mt-5 align-items-center justify-content-center"
+              >
+                Delete Account
+              </button>
+            </div>
           </form>
         </Card>
       </Container>
