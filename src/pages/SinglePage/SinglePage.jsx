@@ -7,9 +7,9 @@ const SinglePage = () => {
   return (
     <div>
       <div className="d-flex container mt-5 align-items-center justify-content-between">
-        <h2>My Dev blogs</h2>
-        <p role="button" onClick={history.goBack} className="text-primary mt-2">
-        <i className="fas fa-long-arrow-alt-left"></i> Go Back
+        <h2>Let me know your thoughts about this in comments</h2>
+        <p style={{minWidth:"80px"}} role="button" onClick={history.goBack} className="text-primary mt-2">
+          <i className="fas fa-long-arrow-alt-left"></i> Go Back
         </p>
       </div>
       <SinglePost />

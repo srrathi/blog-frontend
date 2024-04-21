@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import "./singlePost.css";
-import logo from "../../assets/images/logob.png";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { API_BASE_URL } from "../../utils/constants";
-import { readingTime, toastError, toastSuccess } from "../../utils";
+import { readingTime, toastError, toastInfo, toastSuccess } from "../../utils";
 import { Context } from "../../context/Context";
 import { Buffer } from 'buffer';
 import SpinnerComponent from "../SpinnerComponent/SpinnerComponent";
+import Editor from "../Editor/Editor";
 
 const SinglePost = () => {
   const { token, user } = useContext(Context);
@@ -20,6 +20,7 @@ const SinglePost = () => {
   const postId = Buffer.from(location.pathname.split("/")[2], 'base64').toString('utf8');
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [descHtml, setDescHtml] = useState(null)
   const [photo, setPhoto] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [postLiked, setPostLiked] = useState(false);
@@ -32,6 +33,8 @@ const SinglePost = () => {
       setTitle(res.data.title);
       setDesc(res.data.desc);
       setPhoto(res.data.photo);
+      if (res?.data?.descHtml) setDescHtml(res?.data?.descHtml)
+      else setDescHtml(`<p>${res?.data?.desc}</p>`)
     };
 
     try {
@@ -76,7 +79,7 @@ const SinglePost = () => {
       try {
         const res = await axios.put(
           `${API_BASE_URL}/posts/update/${postId}`,
-          { title, desc, photo, username: user.username },
+          { title, desc, descHtml, photo, username: user.username },
           {
             headers: {
               "x-access-token": token,
@@ -117,6 +120,8 @@ const SinglePost = () => {
           }
         );
         if (res.data) {
+          setPost(res.data);
+          setCommentInput("")
           toastSuccess("Comment added successfully !");
         }
       } catch (error) {
@@ -218,8 +223,8 @@ const SinglePost = () => {
                 </div>
               ) : null}
               <div className="infoHeading  d-flex justify-content-between">
-                <div className="info d-flex align-items-center w-75">
-                  <img src={logo} alt="author" className="authorImage" />
+                <div style={{ flexWrap: "wrap" }} className="info d-flex align-items-center w-75">
+                  <img src={`https://robohash.org/${post?.username}`} alt="author" className="authorImage" />
                   <h2 className="mx-2 mt-1 ">
                     <Link
                       className="text-decoration-none text-dark"
@@ -235,7 +240,13 @@ const SinglePost = () => {
                     <li>{readingTime(post?.desc || "")} min read</li>
                   </p>
                 </div>
-                <button className="singlePostShareBtn mt-3">
+                <button
+                  onClick={() => {
+                    const url = window?.location?.href
+                    window.navigator.clipboard.writeText(url)
+                    toastInfo("Post link copied!")
+                  }}
+                  className="singlePostShareBtn mt-3">
                   <i className="fas fa-share"></i> Share
                 </button>
               </div>
@@ -244,14 +255,14 @@ const SinglePost = () => {
 
           {updateMode ? (
             <>
-              <textarea
-                className="singlePostTitleInput w-100 my-3 p-2 border-0"
-                placeholder="Enter Blog Description here..."
-                value={desc}
-                onChange={(e) => setDesc(e.target.value)}
-                rows="10"
-                cols="20"
-              ></textarea>
+              <Editor
+                setEditorContent={(e) => {
+                  setDescHtml(e)
+                  setDesc(e?.replace(/<[^>]*>/g, ''))
+                }}
+                editorContent={descHtml}
+                placeholder={"Add Description..."}
+                minHeight={500} />
               <button
                 onClick={handleUpdate}
                 className="singlePostUpdateButton my-4 d-block p-1"
@@ -260,7 +271,7 @@ const SinglePost = () => {
               </button>
             </>
           ) : (
-            <p className="text-justify singlePostDesc">{post.desc}</p>
+            <div dangerouslySetInnerHTML={{ __html: descHtml }} className="text-justify singlePostDesc" />
           )}
 
           <div className="d-inline-block singlePostTags">
@@ -301,7 +312,7 @@ const SinglePost = () => {
                 <i
                   role={"button"}
                   onClick={handlePostLike}
-                  className="fas text-danger likeBtn fa-thumbs-up"
+                  className="fas text-primary likeBtn fa-thumbs-up"
                 ></i>
               ) : (
                 <i

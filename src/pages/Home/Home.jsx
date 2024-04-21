@@ -36,7 +36,7 @@ const Home = () => {
   return (
     <div style={{ minHeight: "80vh" }} className="my-4 pt-4">
       <div className="container">
-        <h2 className="mb-4">My Dev Blogs</h2>
+        <h2 className="mb-4">My Learnings</h2>
       </div>
       <Posts isLoading={isLoading} setIsLoading={setIsLoading} posts={posts} />
     </div>

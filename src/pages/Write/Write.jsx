@@ -7,12 +7,14 @@ import axios from "axios";
 import { API_BASE_URL } from "../../utils/constants";
 import { useContext } from "react";
 import { Context } from "../../context/Context";
+import Editor from "../../components/Editor/Editor";
 
 const Write = () => {
   const { user, token } = useContext(Context);
   const [title, setTitle] = useState("");
   const [photo, setPhoto] = useState("");
   const [desc, setDesc] = useState("");
+  const [descHtml, setDescHtml] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ const Write = () => {
       try {
         const res = await axios.post(
           `${API_BASE_URL}/posts/create`,
-          { title, photo, desc, username: user.username, id: user._id },
+          { title, photo, desc, descHtml, username: user.username, id: user._id },
           {
             headers: {
               "x-access-token": token,
@@ -37,7 +39,7 @@ const Write = () => {
         toastError(error.message || "Server error, Please try again after sometime !");
       }
     } else {
-      toastError("Mandatory fields are Empty !");
+      toastError("Please add title and description!");
     }
   };
   return (
@@ -54,23 +56,31 @@ const Write = () => {
             className="w-100 p-2 border-0 my-2 writeFormInput"
             style={{ backgroundColor: "#f7f7f7" }}
             type="text"
-            placeholder="Your Title Here"
+            placeholder="Add Title..."
             onChange={(e) => setTitle(e.target.value)}
+            value={title}
           />
           <input
             className="w-100 p-2 border-0 my-2 writeFormInput"
             style={{ backgroundColor: "#f7f7f7" }}
             type="text"
-            placeholder="Your Image Link"
+            placeholder="Add Image Link..."
             onChange={(e) => setPhoto(e.target.value)}
+            value={photo}
           />
-          <textarea
+          <div
             className="w-100 p-2 border-0 my-2 writeFormInput"
             style={{ backgroundColor: "#f7f7f7" }}
-            placeholder="Add Description Here..."
-            onChange={(e) => setDesc(e.target.value)}
-            rows="17"
-          ></textarea>
+          >
+            <Editor
+              setEditorContent={(e) => {
+                setDescHtml(e)
+                setDesc(e?.replace(/<[^>]*>/g, ''))
+              }}
+              editorContent={descHtml}
+              placeholder={"Add Description..."}
+              minHeight={500} />
+          </div>
         </Container>
       </form>
     </div>
